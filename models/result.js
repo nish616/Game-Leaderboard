@@ -18,8 +18,8 @@ const resultSchema = new mongoose.Schema({
         type : Number,
         required : true
     },
-    win : {
-        type : Boolean,
+    winner : {
+        type : mongoose.Schema.Types.ObjectId,
         required : true
     },
     gameId : {

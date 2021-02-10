@@ -3,19 +3,16 @@ const Game = require("../models/game"); //Game collection
 const Result = require("../models/result"); // result collection
 
 //import authorization function
-const authorize = require("../authorize");
+const authorize = require("../middlewares/authorize");
 
 router.get("/admin", authorize, (req,res) => {
-    //console.log(req.headers['auth-token']);
+
     const user = req.user;
-    const userId = user.split(' ')[0];
     const roleId = user.split(' ')[1];
-    // console.log("User ID ->" + userId);
-    // console.log("Role ID -> " + roleId);
 
     if(roleId != "000") return res.status(403).send("Acess denied");
     
-    res.json({"mydata" : "This is a data"});
+    res.json({"mydata" : "You are at Admin Page"});
 });
 
 // route to post game results
@@ -27,14 +24,17 @@ router.post("/admin/results", authorize, (req, res) => {
 
     if(roleId != "000") return res.status(403).send("Acess denied");
 
-    const {u1Id, u2Id, scoreU1, scoreU2, win , gameId} = req.body;
+    const {u1Id, u2Id, scoreU1, scoreU2, gameId} = req.body;
+
+    const winner  = scoreU1 > scoreU2 ? u1Id : u2Id ;
+
 
     const newResult = {
         u1Id : u1Id,
         u2Id : u2Id,
         scoreU1 : scoreU1,
         scoreU2 : scoreU2,
-        win : win,
+        winner : winner,
         gameId : gameId
     };
 

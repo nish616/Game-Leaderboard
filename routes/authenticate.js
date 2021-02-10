@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
     if(!validPass) return res.status(400).send("Invalid number/password");
 
     //create and assign token
-    const accessToken = jwt.sign({token_id : user._id +' '+user.roleId}, process.env.TOKEN_SECRET, {expiresIn: '60m'});
+    const accessToken = jwt.sign({token_id : user._id +' '+user.roleId}, process.env.TOKEN_SECRET, {expiresIn: '120m'});
     
     res.status(200).json({"auth-token" : accessToken});
     
